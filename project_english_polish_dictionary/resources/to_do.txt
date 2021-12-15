@@ -1,0 +1,9 @@
+"""This file contains list of things to do"""
+
+1.
+
+
+
+Input data from user:
+    Ignoring letter case input.
+    Ignoring special characters.
