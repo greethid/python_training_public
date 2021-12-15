@@ -9,6 +9,17 @@ english_polish_dictionary = {
           'additional': 'jakiś [najczęściej nie tłumaczone na j. polski], niejaki [przed nazwiskami,imionami],'
                         ' jeden [czasem pomijane w tłumaczeniu], na [przy określaniu częstotliwości], w [przy określaniu częstotliwości],'
                         ' za [przy określaniu cen], A - ocena celująca/bardzo dobra [najwyższa ocena w szkole brytyjskiej]'},
+    'A-1': {'translation': 'znakomity, doskonały',
+                     'type': 'PRZYM', 'pronunciation': '[ei\'wΛn]'},
+    'aback': {'translation': 'wstecz',
+               'type': 'PRZYS [w zwrocie]', 'pronunciation': '[əˈbak]',
+               'additional': 'to be taken aback - zostać wytrąconym z równowagi'},
+    'abacus': {'translation': 'liczydło',
+                     'type': 'RZ', 'pronunciation': '[ˈabəkəs]',
+                     'additional': 'LMN abaci [ˈabəsai]'},
+    'abandon': {'translation': 'liczydło',
+               'type': 'RZ', 'pronunciation': '[ˈabəkəs]',
+               'additional': 'LMN abaci [ˈabəsai]'},
     'abbreviation': {'translation': 'skrót',
                      'type': 'RZ', 'pronunciation': '[əˌbri:viˈeɪʃən]',
                      'additional': 'skrót (wyrazu lub wyrażenia)'},
