@@ -88,13 +88,15 @@ eng_pol_dict = {
 
     }
 
-for key, value in eng_pol_dict.items():
-    print(key + ': ', end='')
-    print(value)
-    if type(value) != tuple:
-        raise ValueError(f'Value for key {key} is not a tuple!')
-        break
+if __name__ == '__main__':
+    for key, value in eng_pol_dict.items():
+        print(key + ': ', end='')
+        print(value)
+        if type(value) != tuple:
+            raise ValueError(f'Value for key {key} is not a tuple!')
+            break
 
-print(len(eng_pol_dict))
-print('OK')
+    print(len(eng_pol_dict))
+    print('OK')
+
 
