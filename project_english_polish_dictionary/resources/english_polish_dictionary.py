@@ -84,7 +84,7 @@ eng_pol_dict = {
     'Aboriginal tribes': ('tubylcze szczepy',),
     'abort': ('poronić', 'przerywać ciążę'),
     'abortion': ('aborcja', 'zabieg przerwania ciąży'),
-    'abortionist': ('osoba przeprowadzająca aborcję',),
+    'abortionist': ('osoba przeprowadzająca aborcję',)
 
     }
 

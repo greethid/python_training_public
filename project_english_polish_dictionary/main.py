@@ -1,10 +1,5 @@
 from resources.english_polish_dictionary import eng_pol_dict #to delete in future?
 import resources.functions as f
-import random
-
-
-d = {'VENEZUELA':'CARACAS', 'CANADA':'OTTAWA'}
-random.choice(list(d.values()))
 
 
 if __name__ == '__main__':
@@ -16,7 +11,7 @@ if __name__ == '__main__':
     print(len(copy_eng_pol_dict))
     f.get_random_word()
     print(len(eng_pol_dict))
-    f.start_game()
-    print(f.username)
+    # f.start_game()
+    f.ask_for_answer()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
