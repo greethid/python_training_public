@@ -1,9 +1,15 @@
 """This file contains list of things to do"""
 
-1.
+1. Tests.
+2. Refactoring - UI.
+3. Refactoring - names.
+4. Private vs public.
+5. docstring + style.
+6. 
 
 
 
 Input data from user:
     Ignoring letter case input.
     Ignoring special characters.
+
