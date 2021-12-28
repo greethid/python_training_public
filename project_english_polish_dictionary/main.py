@@ -1,3 +1,6 @@
+"""Main module for english-polish dictionary project"""
+
+
 from resources.english_polish_dictionary import eng_pol_dict #to delete in future?
 import resources.functions as f
 
