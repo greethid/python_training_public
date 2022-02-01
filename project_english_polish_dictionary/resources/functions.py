@@ -46,6 +46,8 @@ def ask_for_answer():
             display_statistics()
         elif answer == 'r':
             reset_game()
+        elif answer == 'hard reset':
+            hard_reset_game()
         elif answer == 'q':
             return answer
 
@@ -83,4 +85,13 @@ def stop_game():
 
 
 def reset_game():
+    """Reset current game statistics and start again"""
+    global all_answers
+    global correct_answers
+    correct_percent = 0
+    all_answers = 0
+
+
+def hard_reset_game():
+    """Reset all games statistics, saves and words answered"""
     pass
