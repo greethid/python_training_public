@@ -41,7 +41,7 @@ def ask_for_answer():
     if answer == 'q':
         return answer
 
-    while answer == 's' or answer == 'r':
+    while answer == 's' or answer == 'r' or answer == 'hard reset':
         if answer == 's':
             display_statistics()
         elif answer == 'r':
