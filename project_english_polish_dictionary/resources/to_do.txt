@@ -13,3 +13,5 @@ Input data from user:
     Ignoring letter case input.
     Ignoring special characters.
 
+Save progress in json.
+

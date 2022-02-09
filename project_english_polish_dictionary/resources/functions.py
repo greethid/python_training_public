@@ -4,12 +4,14 @@
 from resources.english_polish_dictionary import eng_pol_dict, copy_eng_pol_dict
 from resources.BColors import BColors
 import random
+import json
 
 
 #Variables
 username = ''
 correct_answers = 0
 all_answers = 0
+
 
 def get_random_word():
     """Pick and return random word from dictionary"""
@@ -39,6 +41,7 @@ def ask_for_answer():
     answer = input(f'{word}: ')
 
     if answer == 'q':
+        save_game()
         return answer
 
     while answer == 's' or answer == 'r' or answer == 'hard reset':
@@ -52,6 +55,7 @@ def ask_for_answer():
         answer = input(f'{word}: ')
 
         if answer == 'q':
+            save_game()
             return answer
 
     if answer in eng_pol_dict[word]:
@@ -100,4 +104,19 @@ def hard_reset_game():
     reset_game()
     # restore original dictionary
     eng_pol_dict = copy_eng_pol_dict.copy()
+
+
+def save_game():
+    """Save game progress (words used in dictionary) to file"""
+    filename = 'save_file.json'
+    with open(filename, 'w') as f:
+        json.dump(eng_pol_dict ,f)
     pass
+
+
+def load_game():
+    """Load game progress (words used in dictionary) from file"""
+    global eng_pol_dict
+    filename = 'save_file.json'
+    with open(filename, 'r') as f:
+        eng_pol_dict = json.load(f)

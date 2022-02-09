@@ -6,6 +6,7 @@ import resources.functions as f
 
 if __name__ == '__main__':
     f.start_game()
+    f.load_game()
 
     while True:
         answer = f.ask_for_answer()
