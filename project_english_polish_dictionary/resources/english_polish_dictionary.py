@@ -88,6 +88,9 @@ eng_pol_dict = {
 
     }
 
+#copy dictionary for hard reset function
+copy_eng_pol_dict = eng_pol_dict.copy()
+
 if __name__ == '__main__':
     for key, value in eng_pol_dict.items():
         print(key + ': ', end='')

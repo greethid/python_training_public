@@ -1,7 +1,7 @@
 """This file contains functions used in project english-polish dictionary"""
 
 
-from resources.english_polish_dictionary import eng_pol_dict
+from resources.english_polish_dictionary import eng_pol_dict, copy_eng_pol_dict
 from resources.BColors import BColors
 import random
 
@@ -77,7 +77,8 @@ def display_statistics():
     correct_percent = 0
     if all_answers > 0:
         correct_percent = correct_answers/all_answers * 100
-    print(f'Correct answers: {correct_answers} out of {all_answers} which is {correct_percent:.0f} percent')
+    print(f'Correct answers: {correct_answers} out of {all_answers} which is {correct_percent:.0f} percent.')
+    print(f'{len(eng_pol_dict)} words left.')
 
 
 def stop_game():
@@ -95,4 +96,8 @@ def reset_game():
 
 def hard_reset_game():
     """Reset all games statistics, saves and words answered"""
+    global eng_pol_dict
+    reset_game()
+    # restore original dictionary
+    eng_pol_dict = copy_eng_pol_dict.copy()
     pass
