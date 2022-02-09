@@ -48,10 +48,11 @@ def ask_for_answer():
             reset_game()
         elif answer == 'hard reset':
             hard_reset_game()
-        elif answer == 'q':
-            return answer
 
         answer = input(f'{word}: ')
+
+        if answer == 'q':
+            return answer
 
     if answer in eng_pol_dict[word]:
         print(BColors.OKGREEN + 'OK' + BColors.ENDC)
