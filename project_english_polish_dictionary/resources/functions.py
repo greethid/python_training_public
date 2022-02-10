@@ -24,11 +24,13 @@ def start_game():
     global username
     print('Welcome to the game for learning English!')
     username = input('Please type your username and press enter: ')
+    username = username.lower()
     print(f'Hello {username.title()}!')
     print('Write polish translation for word which you see on the screen and press enter.'
           '\nPress "q" to quit.'
           '\nPress "s" for statistics.'
           '\nPress "r" for reset game.')
+    load_game()
 
 
 def ask_for_answer():
@@ -39,6 +41,7 @@ def ask_for_answer():
     word = get_random_word()
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')
+    response = False
 
     if answer == 'q':
         save_game()
@@ -61,8 +64,10 @@ def ask_for_answer():
     if answer in eng_pol_dict[word]:
         print(BColors.OKGREEN + 'OK' + BColors.ENDC)
         correct_answers += 1
+        response = True
     else:
         print(BColors.FAIL + 'NOK' + BColors.ENDC)
+        response = False
 
     for translation in eng_pol_dict[word]:
         if i >= length - 1:
@@ -71,8 +76,9 @@ def ask_for_answer():
             print(translation, end=', ')
             i += 1
 
-    # delete used word from dictionary
-    del eng_pol_dict[word]
+    # delete correct answered word from dictionary
+    if response:
+        del eng_pol_dict[word]
     all_answers += 1
 
 
@@ -94,8 +100,8 @@ def reset_game():
     """Reset current game statistics and start again"""
     global all_answers
     global correct_answers
-    correct_percent = 0
     all_answers = 0
+    correct_answers = 0
 
 
 def hard_reset_game():
@@ -108,7 +114,7 @@ def hard_reset_game():
 
 def save_game():
     """Save game progress (words used in dictionary) to file"""
-    filename = 'save_file.json'
+    filename = username + '_save_file.json'
     with open(filename, 'w') as f:
         json.dump(eng_pol_dict ,f)
     pass
@@ -117,6 +123,10 @@ def save_game():
 def load_game():
     """Load game progress (words used in dictionary) from file"""
     global eng_pol_dict
-    filename = 'save_file.json'
-    with open(filename, 'r') as f:
-        eng_pol_dict = json.load(f)
+    filename = username + '_save_file.json'
+    try:
+        with open(filename, 'r') as f:
+            eng_pol_dict = json.load(f)
+            print(f'{filename} has been loaded.')
+    except:
+        print('There is no save file for specified user.\nStarting new game.')
