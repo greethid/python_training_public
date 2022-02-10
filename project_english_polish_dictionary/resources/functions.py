@@ -37,6 +37,7 @@ def ask_for_answer():
     """Ask user to give correct translation for word and delete that used word from dictionary"""
     global all_answers
     global correct_answers
+    global eng_pol_dict
     i = 0
     word = get_random_word()
     length = len(eng_pol_dict[word])
@@ -79,6 +80,9 @@ def ask_for_answer():
     # delete correct answered word from dictionary
     if response:
         del eng_pol_dict[word]
+        if len(eng_pol_dict) <= 0:
+            eng_pol_dict = copy_eng_pol_dict.copy()
+            print("All words were answered!")
     all_answers += 1
 
 
@@ -128,5 +132,5 @@ def load_game():
         with open(filename, 'r') as f:
             eng_pol_dict = json.load(f)
             print(f'{filename} has been loaded.')
-    except:
+    except FileNotFoundError:
         print('There is no save file for specified user.\nStarting new game.')
