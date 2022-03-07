@@ -19,17 +19,23 @@ def get_random_word():
     return random_word
 
 
-def start_game():
+def start_game(test=None):
     """Welcome user and start game"""
     global username
     print('Welcome to the game for learning English!')
+    if test == 1:
+        return
     username = input('Please type your username and press enter: ')
     username = username.lower()
     print(f'Hello {username.title()}!')
+    if test == 2:
+        return
     print('Write polish translation for word which you see on the screen and press enter.'
           '\nPress "q" to quit.'
           '\nPress "s" for statistics.'
           '\nPress "r" for reset game.')
+    if test == 3:
+        return
     load_game()
 
 
