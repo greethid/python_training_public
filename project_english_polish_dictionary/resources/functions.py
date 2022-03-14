@@ -39,7 +39,7 @@ def start_game(test=None):
     load_game()
 
 
-def ask_for_answer():
+def ask_for_answer(test=None):
     """Ask user to give correct translation for word and delete that used word from dictionary"""
     global all_answers
     global correct_answers
@@ -48,6 +48,8 @@ def ask_for_answer():
     word = get_random_word()
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')
+    if test == 1:
+        return word
     response = False
 
     if answer == 'q':
@@ -90,7 +92,7 @@ def ask_for_answer():
             eng_pol_dict = copy_eng_pol_dict.copy()
             print("All words were answered!")
     all_answers += 1
-
+    return answer
 
 def display_statistics():
     """Display statistics of current game on the screen"""

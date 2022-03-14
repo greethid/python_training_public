@@ -4,9 +4,11 @@
 import unittest
 import unittest.mock
 from unittest.mock import patch
+import re
 from resources.english_polish_dictionary import eng_pol_dict, copy_eng_pol_dict
 from functions import get_random_word
 from functions import start_game
+from functions import ask_for_answer
 import functions
 
 class FunctionsTestCase(unittest.TestCase):
@@ -38,10 +40,49 @@ class FunctionsTestCase(unittest.TestCase):
           '\nPress "s" for statistics.'
           '\nPress "r" for reset game.')
 
-    def test_ask_for_answer(self):
+    @patch('builtins.input', return_value='answer')
+    @patch('builtins.print')
+    def test_ask_for_answer_to_copy(self, mock_print, mock_input):
         """Checking asking for answer input, special keys: q, s, r and hard reset, correct and incorrect given answer, printing all possible good
         answers, deleting correct answered word from dictionary"""
-        pass
+        answer = ask_for_answer(1)
+        mock_input.assert_called_with(f'{answer}: ')
+
+    @patch('builtins.input')
+    def test_ask_for_answer_first_input(self, mock_input):
+        """Checking asking for answer input"""
+        answer = ask_for_answer(1)
+        mock_input.assert_called_with(f'{answer}: ')
+
+    @patch('builtins.input', return_value='q')
+    def test_ask_for_answer_q(self, mock_input):
+        """Checking special key 'q' """
+        answer = ask_for_answer()
+        self.assertEqual(answer, 'q')
+
+    @patch('builtins.input', side_effect=['r', 'q'])
+    def test_ask_for_answer_r_q(self, mock_input):
+        """Checking special keys sequence: 'r, q' """
+        answer = ask_for_answer()
+        self.assertEqual(answer, 'q')
+
+    @patch('builtins.input', side_effect=['s', 'q'])
+    def test_ask_for_answer_s_q(self, mock_input):
+        """Checking special keys sequence: 's, q' """
+        answer = ask_for_answer()
+        self.assertEqual(answer, 'q')
+
+    @patch('builtins.input', side_effect=['hard reset', 'q'])
+    def test_ask_for_answer_hard_reset_q(self, mock_input):
+        """Checking special keys sequence: 'hard reset, q' """
+        answer = ask_for_answer()
+        self.assertEqual(answer, 'q')
+
+    @patch('builtins.input', side_effect=['s', 'r', 'r', 'r', 's', 's', 'hard reset', 'hard reset', 's', 'r', 'hard reset', 'r', 'r', 's', 's', 'q'])
+    def test_ask_for_answer_random_sequence_q(self, mock_input):
+        """Checking special keys: random sequence and 'q' finally"""
+        answer = ask_for_answer()
+        self.assertEqual(answer, 'q')
 
 # Hello Grzegorz!
 # Write polish translation for word which you see on the screen and press enter.
