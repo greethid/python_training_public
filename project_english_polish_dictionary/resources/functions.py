@@ -46,6 +46,8 @@ def ask_for_answer(test=None):
     global eng_pol_dict
     i = 0
     word = get_random_word()
+    if test == 2:
+        word = 'abject'
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')
     if test == 1:
@@ -77,6 +79,9 @@ def ask_for_answer(test=None):
     else:
         print(BColors.FAIL + 'NOK' + BColors.ENDC)
         response = False
+
+    if test == 2:
+        return (correct_answers, response)
 
     for translation in eng_pol_dict[word]:
         if i >= length - 1:

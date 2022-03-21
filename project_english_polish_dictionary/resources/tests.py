@@ -24,8 +24,6 @@ class FunctionsTestCase(unittest.TestCase):
     @patch('builtins.print')
     def test_start_game(self, mock_print, mock_input):
         """Checking printing and setting username variable during starting game"""
-        print('dupa')
-        mock_print.assert_called_with('dupa')
         start_game()
         self.assertEqual('andrzej', functions.username)
         mock_print.assert_called_with('There is no save file for specified user.\nStarting new game.')
@@ -84,13 +82,21 @@ class FunctionsTestCase(unittest.TestCase):
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
-# Hello Grzegorz!
-# Write polish translation for word which you see on the screen and press enter.
-# Press "q" to quit.
-# Press "s" for statistics.
-# Press "r" for reset game.
+    @patch('builtins.input', return_value='nikczemny')
+    @patch('builtins.print')
+    def test_ask_for_answer_correct_answer(self, mock_print, mock_input):
+        """Checking what happened if correct answer is passed"""
+        answer = ask_for_answer(2)
+        self.assertEqual(answer, (1, True))
+        mock_print.assert_called_with('\x1b[92mOK\x1b[0m')
 
-
+    @patch('builtins.input', return_value='odpowiedź')
+    @patch('builtins.print')
+    def test_ask_for_answer_incorrect_answer(self, mock_print, mock_input):
+        """Checking what happened if incorrect answer is passed"""
+        answer = ask_for_answer(2)
+        self.assertEqual(answer, (0, False))
+        mock_print.assert_called_with('\x1b[91mNOK\x1b[0m')
 
 
 
