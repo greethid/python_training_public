@@ -46,7 +46,7 @@ def ask_for_answer(test=None):
     global eng_pol_dict
     i = 0
     word = get_random_word()
-    if test == 2:
+    if test == 2 or test == 3 or test == 4:
         word = 'abject'
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')
@@ -58,6 +58,7 @@ def ask_for_answer(test=None):
         save_game()
         return answer
 
+    # managing functional keys
     while answer == 's' or answer == 'r' or answer == 'hard reset':
         if answer == 's':
             display_statistics()
@@ -72,6 +73,7 @@ def ask_for_answer(test=None):
             save_game()
             return answer
 
+    # print if given answer is ok
     if answer in eng_pol_dict[word]:
         print(BColors.OKGREEN + 'OK' + BColors.ENDC)
         correct_answers += 1
@@ -83,12 +85,17 @@ def ask_for_answer(test=None):
     if test == 2:
         return (correct_answers, response)
 
+    # print polish translation for given word
     for translation in eng_pol_dict[word]:
         if i >= length - 1:
             print(translation)
+            if test == 4:
+                return
         else:
             print(translation, end=', ')
             i += 1
+        if test == 3:
+            return
 
     # delete correct answered word from dictionary
     if response:

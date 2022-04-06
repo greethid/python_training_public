@@ -98,6 +98,23 @@ class FunctionsTestCase(unittest.TestCase):
         self.assertEqual(answer, (0, False))
         mock_print.assert_called_with('\x1b[91mNOK\x1b[0m')
 
+    @patch('builtins.input', return_value='nikczemny')
+    @patch('builtins.print')
+    def test_ask_for_answer_print_translation(self, mock_print, mock_input):
+        """Checking if translation is printed correctly"""
+        ask_for_answer(3)
+        mock_print.assert_called_with('nikczemny', end=', ')
+
+    @patch('builtins.input', return_value='nikczemny')
+    @patch('builtins.print')
+    def test_ask_for_answer_print_translation_2(self, mock_print, mock_input):
+        """Checking if translation is printed correctly"""
+        ask_for_answer(4)
+        mock_print.assert_called_with('podły')
+
+    def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self):
+        pass
+
 
 
 
