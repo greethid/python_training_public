@@ -115,6 +115,12 @@ class FunctionsTestCase(unittest.TestCase):
     def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self):
         pass
 
+    def test_ask_for_answer_not_delete_incorrect_answered_word_from_dictionary(self):
+        pass
+
+    def test_ask_for_answer_delete_check_if_all_words_were_answered(self):
+        pass
+
 
 
 
