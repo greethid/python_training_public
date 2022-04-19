@@ -46,7 +46,7 @@ def ask_for_answer(test=None):
     global eng_pol_dict
     i = 0
     word = get_random_word()
-    if test == 2 or test == 3 or test == 4:
+    if test in (2, 3, 4, 5):
         word = 'abject'
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')

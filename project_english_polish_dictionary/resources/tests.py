@@ -9,6 +9,7 @@ from resources.english_polish_dictionary import eng_pol_dict, copy_eng_pol_dict
 from functions import get_random_word
 from functions import start_game
 from functions import ask_for_answer
+from functions import hard_reset_game
 import functions
 
 class FunctionsTestCase(unittest.TestCase):
@@ -112,11 +113,21 @@ class FunctionsTestCase(unittest.TestCase):
         ask_for_answer(4)
         mock_print.assert_called_with('podły')
 
-    def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self):
-        pass
+    @patch('builtins.input', return_value='zła odpowiedź')
+    def test_ask_for_answer_not_delete_incorrect_answered_word_from_dictionary(self, mock_input):
+        answer = ask_for_answer(5)
+        self.assertEqual('zła odpowiedź', answer)
+        self.assertNotIn(answer, eng_pol_dict)
+        self.assertIn('abject', eng_pol_dict)
 
-    def test_ask_for_answer_not_delete_incorrect_answered_word_from_dictionary(self):
-        pass
+    @patch('builtins.input', return_value='nikczemny')
+    def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self, mock_input):
+        global eng_pol_dict
+        answer = ask_for_answer(5)
+        self.assertEqual('nikczemny', answer)
+        self.assertNotIn(answer, eng_pol_dict)
+        eng_pol_dict = copy_eng_pol_dict.copy()
+
 
     def test_ask_for_answer_delete_check_if_all_words_were_answered(self):
         pass
