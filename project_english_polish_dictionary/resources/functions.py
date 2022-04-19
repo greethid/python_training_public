@@ -106,6 +106,7 @@ def ask_for_answer(test=None):
     all_answers += 1
     return answer
 
+
 def display_statistics():
     """Display statistics of current game on the screen"""
     correct_percent = 0

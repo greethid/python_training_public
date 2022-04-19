@@ -115,21 +115,27 @@ class FunctionsTestCase(unittest.TestCase):
 
     @patch('builtins.input', return_value='zła odpowiedź')
     def test_ask_for_answer_not_delete_incorrect_answered_word_from_dictionary(self, mock_input):
+        length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
         self.assertEqual('zła odpowiedź', answer)
         self.assertNotIn(answer, eng_pol_dict)
         self.assertIn('abject', eng_pol_dict)
+        length_after = len(eng_pol_dict)
+        self.assertEqual(length_before, length_after)
 
     @patch('builtins.input', return_value='nikczemny')
     def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self, mock_input):
         global eng_pol_dict
+        length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
         self.assertEqual('nikczemny', answer)
         self.assertNotIn(answer, eng_pol_dict)
+        length_after = len(eng_pol_dict)
+        self.assertEqual(length_before - 1, length_after)
         eng_pol_dict = copy_eng_pol_dict.copy()
 
-
-    def test_ask_for_answer_delete_check_if_all_words_were_answered(self):
+    @patch('builtins.input', return_value='nikczemny')
+    def test_ask_for_answer_delete_check_if_all_words_were_answered(self, mock_input):
         pass
 
 
