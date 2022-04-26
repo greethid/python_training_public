@@ -46,8 +46,10 @@ def ask_for_answer(test=None):
     global eng_pol_dict
     i = 0
     word = get_random_word()
-    if test in (2, 3, 4, 5):
+    if test in (2, 3, 4, 5, 6):
         word = 'abject'
+    if test == 6:
+        eng_pol_dict = {'abject': ('nikczemny', 'podły')}
     length = len(eng_pol_dict[word])
     answer = input(f'{word}: ')
     if test == 1:

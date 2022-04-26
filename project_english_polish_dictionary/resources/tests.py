@@ -41,51 +41,51 @@ class FunctionsTestCase(unittest.TestCase):
 
     @patch('builtins.input', return_value='answer')
     @patch('builtins.print')
-    def test_ask_for_answer_to_copy(self, mock_print, mock_input):
+    def test_ask_for_answer_1_to_copy(self, mock_print, mock_input):
         """Checking asking for answer input, special keys: q, s, r and hard reset, correct and incorrect given answer, printing all possible good
         answers, deleting correct answered word from dictionary"""
         answer = ask_for_answer(1)
         mock_input.assert_called_with(f'{answer}: ')
 
     @patch('builtins.input')
-    def test_ask_for_answer_first_input(self, mock_input):
+    def test_ask_for_answer_2_first_input(self, mock_input):
         """Checking asking for answer input"""
         answer = ask_for_answer(1)
         mock_input.assert_called_with(f'{answer}: ')
 
     @patch('builtins.input', return_value='q')
-    def test_ask_for_answer_q(self, mock_input):
+    def test_ask_for_answer_3_q(self, mock_input):
         """Checking special key 'q' """
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
     @patch('builtins.input', side_effect=['r', 'q'])
-    def test_ask_for_answer_r_q(self, mock_input):
+    def test_ask_for_answer_4_r_q(self, mock_input):
         """Checking special keys sequence: 'r, q' """
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
     @patch('builtins.input', side_effect=['s', 'q'])
-    def test_ask_for_answer_s_q(self, mock_input):
+    def test_ask_for_answer_5_s_q(self, mock_input):
         """Checking special keys sequence: 's, q' """
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
     @patch('builtins.input', side_effect=['hard reset', 'q'])
-    def test_ask_for_answer_hard_reset_q(self, mock_input):
+    def test_ask_for_answer_6_hard_reset_q(self, mock_input):
         """Checking special keys sequence: 'hard reset, q' """
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
     @patch('builtins.input', side_effect=['s', 'r', 'r', 'r', 's', 's', 'hard reset', 'hard reset', 's', 'r', 'hard reset', 'r', 'r', 's', 's', 'q'])
-    def test_ask_for_answer_random_sequence_q(self, mock_input):
+    def test_ask_for_answer_7_random_sequence_q(self, mock_input):
         """Checking special keys: random sequence and 'q' finally"""
         answer = ask_for_answer()
         self.assertEqual(answer, 'q')
 
     @patch('builtins.input', return_value='nikczemny')
     @patch('builtins.print')
-    def test_ask_for_answer_correct_answer(self, mock_print, mock_input):
+    def test_ask_for_answer_8_correct_answer(self, mock_print, mock_input):
         """Checking what happened if correct answer is passed"""
         answer = ask_for_answer(2)
         self.assertEqual(answer, (1, True))
@@ -93,28 +93,28 @@ class FunctionsTestCase(unittest.TestCase):
 
     @patch('builtins.input', return_value='odpowiedź')
     @patch('builtins.print')
-    def test_ask_for_answer_incorrect_answer(self, mock_print, mock_input):
+    def test_ask_for_answer_9_incorrect_answer(self, mock_print, mock_input):
         """Checking what happened if incorrect answer is passed"""
         answer = ask_for_answer(2)
-        self.assertEqual(answer, (0, False))
+        self.assertEqual(answer, (1, False))
         mock_print.assert_called_with('\x1b[91mNOK\x1b[0m')
 
     @patch('builtins.input', return_value='nikczemny')
     @patch('builtins.print')
-    def test_ask_for_answer_print_translation(self, mock_print, mock_input):
+    def test_ask_for_answer_10_print_translation(self, mock_print, mock_input):
         """Checking if translation is printed correctly"""
         ask_for_answer(3)
         mock_print.assert_called_with('nikczemny', end=', ')
 
     @patch('builtins.input', return_value='nikczemny')
     @patch('builtins.print')
-    def test_ask_for_answer_print_translation_2(self, mock_print, mock_input):
+    def test_ask_for_answer_11_print_translation_2(self, mock_print, mock_input):
         """Checking if translation is printed correctly"""
         ask_for_answer(4)
         mock_print.assert_called_with('podły')
 
     @patch('builtins.input', return_value='zła odpowiedź')
-    def test_ask_for_answer_not_delete_incorrect_answered_word_from_dictionary(self, mock_input):
+    def test_ask_for_answer_12_not_delete_incorrect_answered_word_from_dictionary(self, mock_input):
         length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
         self.assertEqual('zła odpowiedź', answer)
@@ -124,19 +124,26 @@ class FunctionsTestCase(unittest.TestCase):
         self.assertEqual(length_before, length_after)
 
     @patch('builtins.input', return_value='nikczemny')
-    def test_ask_for_answer_delete_correct_answered_word_from_dictionary(self, mock_input):
+    def test_ask_for_answer_13_delete_correct_answered_word_from_dictionary(self, mock_input):
         global eng_pol_dict
         length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
         self.assertEqual('nikczemny', answer)
-        self.assertNotIn(answer, eng_pol_dict)
+        self.assertNotIn('abject', eng_pol_dict)
         length_after = len(eng_pol_dict)
         self.assertEqual(length_before - 1, length_after)
         eng_pol_dict = copy_eng_pol_dict.copy()
 
     @patch('builtins.input', return_value='nikczemny')
-    def test_ask_for_answer_delete_check_if_all_words_were_answered(self, mock_input):
-        pass
+    @patch('builtins.print')
+    def test_ask_for_answer_14_delete_check_if_all_words_were_answered(self, mock_print, mock_input):
+        global eng_pol_dict
+        length_before = len(eng_pol_dict)
+        answer = ask_for_answer(6)
+        length_after = len(eng_pol_dict)
+        self.assertEqual(length_before, length_after)
+        self.assertIn('abject', eng_pol_dict)
+        mock_print.assert_called_with('All words were answered!')
 
 
 
