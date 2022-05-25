@@ -109,12 +109,18 @@ def ask_for_answer(test=None):
     return answer
 
 
-def display_statistics():
+def display_statistics(test=None):
     """Display statistics of current game on the screen"""
+    global correct_answers, all_answers
+    if test == 1:
+        correct_answers = 1
+        all_answers = 2
     correct_percent = 0
     if all_answers > 0:
         correct_percent = correct_answers/all_answers * 100
     print(f'Correct answers: {correct_answers} out of {all_answers} which is {correct_percent:.0f} percent.')
+    if test == 1:
+        return
     print(f'{len(eng_pol_dict)} words left.')
 
 

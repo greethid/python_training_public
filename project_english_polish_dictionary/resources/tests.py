@@ -9,6 +9,7 @@ from resources.english_polish_dictionary import eng_pol_dict, copy_eng_pol_dict
 from functions import get_random_word
 from functions import start_game
 from functions import ask_for_answer
+from functions import display_statistics
 from functions import hard_reset_game
 import functions
 
@@ -115,6 +116,7 @@ class FunctionsTestCase(unittest.TestCase):
 
     @patch('builtins.input', return_value='zła odpowiedź')
     def test_ask_for_answer_12_not_delete_incorrect_answered_word_from_dictionary(self, mock_input):
+        """Checking word is not deleted when answer was wrong"""
         length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
         self.assertEqual('zła odpowiedź', answer)
@@ -125,6 +127,7 @@ class FunctionsTestCase(unittest.TestCase):
 
     @patch('builtins.input', return_value='nikczemny')
     def test_ask_for_answer_13_delete_correct_answered_word_from_dictionary(self, mock_input):
+        """Checking word is deleted when answer was correct"""
         global eng_pol_dict
         length_before = len(eng_pol_dict)
         answer = ask_for_answer(5)
@@ -137,6 +140,7 @@ class FunctionsTestCase(unittest.TestCase):
     @patch('builtins.input', return_value='nikczemny')
     @patch('builtins.print')
     def test_ask_for_answer_14_delete_check_if_all_words_were_answered(self, mock_print, mock_input):
+        """Checking what happen if all words were deleted"""
         global eng_pol_dict
         length_before = len(eng_pol_dict)
         answer = ask_for_answer(6)
@@ -145,8 +149,19 @@ class FunctionsTestCase(unittest.TestCase):
         self.assertIn('abject', eng_pol_dict)
         mock_print.assert_called_with('All words were answered!')
 
+    @patch('builtins.print')
+    def test_display_statistics(self, mock_print):
+        """Checking is statistics are displayed correctly"""
+        display_statistics(1)
+        mock_print.assert_called_with(f'Correct answers: 1 out of 2 which is 50 percent.')
+        display_statistics()
+        mock_print.assert_called_with(f'{len(eng_pol_dict)} words left.')
 
-
+    @patch('builtins.print')
+    def test_stop_game(self, mock_print):
+        """Checking set of methods for game ending"""
+        display_statistics()
+        mock_print.assert_called_with(f'{len(eng_pol_dict)} words left.')
 
 if __name__ == '__main__':
     unittest.main()
