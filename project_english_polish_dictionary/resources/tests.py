@@ -10,8 +10,10 @@ from functions import get_random_word
 from functions import start_game
 from functions import ask_for_answer
 from functions import display_statistics
+from functions import reset_game
 from functions import hard_reset_game
-import functions
+import functions as f
+
 
 class FunctionsTestCase(unittest.TestCase):
     """Class for tests for functions used in english polish dictionary project"""
@@ -27,7 +29,7 @@ class FunctionsTestCase(unittest.TestCase):
     def test_start_game(self, mock_print, mock_input):
         """Checking printing and setting username variable during starting game"""
         start_game()
-        self.assertEqual('andrzej', functions.username)
+        self.assertEqual('andrzej', f.username)
         mock_print.assert_called_with('There is no save file for specified user.\nStarting new game.')
         mock_input.assert_called_with('Please type your username and press enter: ')
         start_game(1)
@@ -36,9 +38,9 @@ class FunctionsTestCase(unittest.TestCase):
         mock_print.assert_called_with('Hello Andrzej!')
         start_game(3)
         mock_print.assert_called_with('Write polish translation for word which you see on the screen and press enter.'
-          '\nPress "q" to quit.'
-          '\nPress "s" for statistics.'
-          '\nPress "r" for reset game.')
+                                      '\nPress "q" to quit.'
+                                      '\nPress "s" for statistics.'
+                                      '\nPress "r" for reset game.')
 
     @patch('builtins.input', return_value='answer')
     @patch('builtins.print')
@@ -162,6 +164,14 @@ class FunctionsTestCase(unittest.TestCase):
         """Checking set of methods for game ending"""
         display_statistics()
         mock_print.assert_called_with(f'{len(eng_pol_dict)} words left.')
+
+    def test_reset_game(self):
+        display_statistics(1)
+        self.assertEqual(2, f.all_answers)
+        self.assertEqual(1, f.correct_answers)
+        reset_game()
+        self.assertEqual(0, f.all_answers)
+        self.assertEqual(0, f.correct_answers)
 
 if __name__ == '__main__':
     unittest.main()
