@@ -11,8 +11,11 @@ from functions import start_game
 from functions import ask_for_answer
 from functions import display_statistics
 from functions import reset_game
+from functions import save_game
 from functions import hard_reset_game
 import functions as f
+
+import os
 
 
 class FunctionsTestCase(unittest.TestCase):
@@ -166,12 +169,33 @@ class FunctionsTestCase(unittest.TestCase):
         mock_print.assert_called_with(f'{len(eng_pol_dict)} words left.')
 
     def test_reset_game(self):
+        """Checking if after reset game variables are cleared"""
         display_statistics(1)
         self.assertEqual(2, f.all_answers)
         self.assertEqual(1, f.correct_answers)
         reset_game()
         self.assertEqual(0, f.all_answers)
         self.assertEqual(0, f.correct_answers)
+
+    def test_hard_reset_game(self):
+        """Checking if after hard reset game variables are cleared"""
+        display_statistics(1)
+        self.assertEqual(2, f.all_answers)
+        self.assertEqual(1, f.correct_answers)
+        reset_game()
+        self.assertEqual(0, f.all_answers)
+        self.assertEqual(0, f.correct_answers)
+
+    def test_save_file(self):
+        """Checking if appropriate file is saved in folder"""
+        f.username = 'test_user'
+        print('username = ', f.username)
+        save_game()
+        if os.path.exists(f.username + '_save_file.json'):
+            os.remove(f.username + '_save_file.json')
+        else:
+            print(f'File {f.username}_save_file.json does not exists!')
+            self.assertTrue(os.path.exists(f.username + '_save_file.json'))
 
 if __name__ == '__main__':
     unittest.main()
