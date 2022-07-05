@@ -12,6 +12,7 @@ from functions import ask_for_answer
 from functions import display_statistics
 from functions import reset_game
 from functions import save_game
+from functions import load_game
 from functions import hard_reset_game
 import functions as f
 
@@ -186,16 +187,35 @@ class FunctionsTestCase(unittest.TestCase):
         self.assertEqual(0, f.all_answers)
         self.assertEqual(0, f.correct_answers)
 
-    def test_save_file(self):
+    def test_save_game(self):
         """Checking if appropriate file is saved in folder"""
         f.username = 'test_user'
-        print('username = ', f.username)
         save_game()
         if os.path.exists(f.username + '_save_file.json'):
             os.remove(f.username + '_save_file.json')
         else:
             print(f'File {f.username}_save_file.json does not exists!')
             self.assertTrue(os.path.exists(f.username + '_save_file.json'))
+
+    @patch('builtins.print')
+    def tests_load_game_1(self, mock_print):
+        """Checking if appropriate file is loaded from folder"""
+        f.username = 'test_user'
+        self.assertIn('abiding', eng_pol_dict)
+        del eng_pol_dict['abiding']
+        self.assertNotIn('abiding', eng_pol_dict)
+        save_game()
+        load_game()
+        mock_print.assert_called_with(f'{f.username}_save_file.json has been loaded.')
+        self.assertNotIn('abiding', eng_pol_dict)
+        os.remove(f.username + '_save_file.json')
+
+    @patch('builtins.print')
+    def tests_load_game_2_lack_of_file(self, mock_print):
+        """Checking if file is not present appropriate comment is printed"""
+        f.username = 'test_user'
+        load_game()
+        mock_print.assert_called_with('There is no save file for specified user.\nStarting new game.')
 
 if __name__ == '__main__':
     unittest.main()
