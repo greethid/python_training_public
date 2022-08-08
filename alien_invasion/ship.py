@@ -1,5 +1,6 @@
 import pygame
 
+
 class Ship:
     """Class dedicated to managing the spacecraft"""
 
@@ -7,6 +8,7 @@ class Ship:
         """Spacecraft initialization and its initial position"""
 
         self.screen = ai_game.screen
+        self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
 
         #Loading image of the spacecraft and downloading its rectangle
@@ -15,6 +17,24 @@ class Ship:
 
         #Every new spacecraft appears on the bottom of the screen
         self.rect.midbottom = self.screen_rect.midbottom
+
+        #The ship's horizontal position is stored as a floating point number
+        self.x = float(self.rect.x)
+
+        #Options that indicate the movement of the ship
+        self.moving_right = False
+        self.moving_left = False
+
+    def update(self):
+        "Updating the position of the ship based on the option indicating its movement"
+        #Updating the value of the X coordinate of the ship, not its rectangle
+        if self.moving_right and self.rect.right < self.screen_rect.right:
+            self.x += self.settings.ship_speed
+        if self.moving_left and self.rect.left > 0:
+            self.x -= self.settings.ship_speed
+
+        #Updating rect based on value self.x
+        self.rect.x = self.x
 
     def blitme(self):
         """Displaying the spacecraft at its current position"""
