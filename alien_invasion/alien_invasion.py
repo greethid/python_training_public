@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class AlienInvasion:
@@ -19,6 +20,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
+        self.bullet = Bullet(self)
 
     def run_game(self):
         """Start main loop of the program"""
@@ -77,7 +79,7 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
-    #Creating a copy of the game and launching it
+    # Creating a copy of the game and launching it
     ai = AlienInvasion()
     ai.run_game()
 
