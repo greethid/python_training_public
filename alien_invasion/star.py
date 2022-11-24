@@ -9,6 +9,7 @@ class Star(Sprite):
         """Star initialization and defining its location"""
         super().__init__()
         self.screen = ai_game.screen
+        self.settings = ai_game.settings
 
         # Load the star image and define its attribute rect
         self.image = pygame.image.load('images/star.bmp')
@@ -20,3 +21,11 @@ class Star(Sprite):
 
         # Storing the exact horizontal foreign position
         self.x = float(self.rect.x)
+
+        # Storing the exact vertical foreign position
+        self.y = float(self.rect.y)
+
+    def update(self):
+        """Moving a star to the down"""
+        self.y += self.settings.star_speed
+        self.rect.y = self.y

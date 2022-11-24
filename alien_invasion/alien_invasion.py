@@ -37,6 +37,8 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
+            self._update_stars()
             self._update_screen()
 
     def _check_events(self):
@@ -108,7 +110,6 @@ class AlienInvasion:
     def _create_stars_background(self):
         """Creation of a complete star fleet"""
         # Create an star and determine how many stars will fit in a row
-        # Distance between stars is equal to the width of an star
         star = Star(self)
         star_width, star_height = star.rect.size
         available_space_x = self.settings.screen_width
@@ -119,7 +120,7 @@ class AlienInvasion:
         available_space_y = self.settings.screen_height
         number_rows = available_space_y // (2 * star_height) + 1
 
-        #Create the full fleet of star
+        #Create the full set of stars
         for row_number in range(number_rows):
             self.x_temp = 0
             self.y_rand = randint(0, 10)
@@ -133,7 +134,8 @@ class AlienInvasion:
         star.x = randint(0, 400) + self.x_temp  # + 2 * star_width * star_number
         self.x_temp = star.x
         star.rect.x = star.x
-        star.rect.y = 2 * star.rect.height * row_number + self.y_rand
+        star.y = 2 * star.rect.height * row_number + self.y_rand
+        star.rect.y = star.y
         self.stars.add(star)
 
     def _fire_bullet(self):
@@ -151,6 +153,14 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """Update position of all aliens in the fleet"""
+        self.aliens.update()
+
+    def _update_stars(self):
+        """Update position of all stars in the screen"""
+        self.stars.update()
 
     def _update_screen(self):
         """updating the images on the screen and going to a new screen"""
