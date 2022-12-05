@@ -24,5 +24,12 @@ class Alien(Sprite):
 
     def update(self):
         """Moving an alien to the right"""
-        self.x += self.settings.alien_speed
+        self.x += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.x = self.x
+
+    def check_edges_right_left(self):
+        """Returns True if alien touches the right or the left edge of the screen"""
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
+            return True
+

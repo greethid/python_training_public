@@ -29,3 +29,9 @@ class Star(Sprite):
         """Moving a star to the down"""
         self.y += self.settings.star_speed
         self.rect.y = self.y
+
+    def check_edge_bottom(self):
+        """Returns True if star touches the bottom edge of the screen"""
+        screen_rect = self.screen.get_rect()
+        if self.rect.top >= screen_rect.bottom:
+            return True

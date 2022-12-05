@@ -107,6 +107,19 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
+    def _check_fleet_edges(self):
+        """Reaction when alien touches the right or the left edge of the screen"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges_right_left():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Move the all fleet down and change direction from right to left or vice versa"""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
     def _create_stars_background(self):
         """Creation of a complete star fleet"""
         # Create an star and determine how many stars will fit in a row
@@ -138,6 +151,13 @@ class AlienInvasion:
         star.rect.y = star.y
         self.stars.add(star)
 
+    def _check_star_edge(self):
+        """Reaction when alien touches the right or the left edge of the screen"""
+        for star in self.stars.sprites():
+            if star.check_edge_bottom():
+                star.y = 1
+
+
     def _fire_bullet(self):
         """Creating new bullet and adding it to bullets group"""
         if len(self.bullets) < self.settings.bullet_allowed:
@@ -155,11 +175,13 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
 
     def _update_aliens(self):
-        """Update position of all aliens in the fleet"""
+        """Check if any alien from the fleet touches the edge of the screen and update position of all aliens in the screen"""
+        self._check_fleet_edges()
         self.aliens.update()
 
     def _update_stars(self):
-        """Update position of all stars in the screen"""
+        """Check if any star touches the bottom edge of the screen and update position of all stars in the screen"""
+        self._check_star_edge()
         self.stars.update()
 
     def _update_screen(self):
