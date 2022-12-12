@@ -1,11 +1,15 @@
 import sys
+from time import sleep
+
 import pygame
+
 from random import randint
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from star import Star
+from game_stats import GameStats
 
 
 class AlienInvasion:
@@ -21,6 +25,9 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+
+        # Create an object that stores statistical data about a game
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -189,6 +196,10 @@ class AlienInvasion:
         """Check if any alien from the fleet touches the edge of the screen and update position of all aliens in the screen"""
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Detect collision between an alien and the ship
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("The ship has been hit!!!")
 
     def _update_stars(self):
         """Check if any star touches the bottom edge of the screen and update position of all stars in the screen"""
