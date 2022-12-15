@@ -199,7 +199,7 @@ class AlienInvasion:
 
         # Detect collision between an alien and the ship
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("The ship has been hit!!!")
+            self._ship_hit()
 
     def _update_stars(self):
         """Check if any star touches the bottom edge of the screen and update position of all stars in the screen"""
@@ -220,6 +220,22 @@ class AlienInvasion:
 
         # Displaying the last modified screen
         pygame.display.flip()
+
+    def _ship_hit(self):
+        """Reaction for collision between the ship and the alien"""
+        # Decrease value of left ships
+        self.stats.ship_left -= 1
+
+        # Delete content of lists alien and bullets
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Pause
+        sleep(0.5)
 
 
 if __name__ == '__main__':
