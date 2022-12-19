@@ -95,12 +95,12 @@ class AlienInvasion:
         available_space_x = self.settings.screen_width - (6 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
 
-        #Determine how many rows will fit on the screen
+        # Determine how many rows will fit on the screen
         ship_height = self.ship.rect.height
         available_space_y = (self.settings.screen_height - (5 * alien_height) - ship_height)
         number_rows = available_space_y // (2 * alien_height)
 
-        #Create the full fleet of alien
+        # Create the full fleet of alien
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number)
@@ -135,12 +135,12 @@ class AlienInvasion:
         available_space_x = self.settings.screen_width
         number_stars_x = available_space_x // (2 * star_width)
 
-        #Determine how many rows will fit on the screen
+        # Determine how many rows will fit on the screen
         ship_height = self.ship.rect.height
         available_space_y = self.settings.screen_height
         number_rows = available_space_y // (2 * star_height) + 1
 
-        #Create the full set of stars
+        # Create the full set of stars
         for row_number in range(number_rows):
             self.x_temp = 0
             self.y_rand = randint(0, 10)
@@ -163,7 +163,6 @@ class AlienInvasion:
         for star in self.stars.sprites():
             if star.check_edge_bottom():
                 star.y = 1
-
 
     def _fire_bullet(self):
         """Creating new bullet and adding it to bullets group"""
@@ -201,6 +200,9 @@ class AlienInvasion:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        # Detect aliens which reach the bottom edge of the screen
+        self._check_aliens_bottom()
+
     def _update_stars(self):
         """Check if any star touches the bottom edge of the screen and update position of all stars in the screen"""
         self._check_star_edge()
@@ -237,10 +239,17 @@ class AlienInvasion:
         # Pause
         sleep(0.5)
 
+    def _check_aliens_bottom(self):
+        """Check if any alien reaches the bottom edge of the screen"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Do the same as in case collision between the ship and an alien
+                self._ship_hit()
+                break
+
 
 if __name__ == '__main__':
     # Creating a copy of the game and launching it
     ai = AlienInvasion()
     ai.run_game()
-
-
