@@ -10,6 +10,7 @@ from bullet import Bullet
 from alien import Alien
 from star import Star
 from game_stats import GameStats
+from button import Button
 
 
 class AlienInvasion:
@@ -36,6 +37,9 @@ class AlienInvasion:
 
         self._create_fleet()
         self._create_stars_background()
+
+        # Create the button 'Start Game'
+        self.play_button = Button(self, self.screen, 'Start Game')
 
     def run_game(self):
         """Start main loop of the program"""
@@ -222,6 +226,10 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
+
+        # Display the button 'Start Game' only when the game is inactive
+        if not self.stats.game_active:
+            self.play_button.draw_button()
 
         # Displaying the last modified screen
         pygame.display.flip()
