@@ -74,6 +74,7 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
 
         if button_clicked and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
             self._start_new_game()
 
     def _check_keydown_events(self, event):
@@ -227,6 +228,7 @@ class AlienInvasion:
             # Delete existing bullets and create a new fleet
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_aliens(self):
         """Check if any alien from the fleet touches the edge of the screen and update position of all aliens in the screen"""
