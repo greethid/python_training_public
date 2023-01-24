@@ -2,7 +2,7 @@ import  pygame.font
 
 class Button():
 
-    def __init__(self, ai_game, screen, msg):
+    def __init__(self, ai_game, screen, msg, position=None):
         """Initialization of a button's attributes"""
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
@@ -17,10 +17,17 @@ class Button():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
 
-        # Text displayed on button has to be prepared only once
-        self._prep_msg(msg)
+        # If parameter position is defined move rect toward bottom
+        if position:
+            self.rect.top += position
 
-    def _prep_msg(self, msg):
+        # Text displayed on button has to be prepared only once
+        self._prep_msg(msg, position)
+
+        # Variable to express if button is active
+        self.button_active = True
+
+    def _prep_msg(self, msg, position=None):
         """Place a text on the generated screen and center a text on a button"""
         self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()

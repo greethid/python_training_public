@@ -41,6 +41,14 @@ class AlienInvasion:
         # Create the button 'Start Game'
         self.play_button = Button(self, self.screen, 'Start Game')
 
+        # Create the difficulty buttons
+        self.easy_button = Button(self, self.screen, 'Easy', -50)
+        self.normal_button = Button(self, self.screen, 'Normal')
+        self.hard_button = Button(self, self.screen, 'Hard', 50)
+        self.easy_button.button_active = False
+        self.normal_button.button_active = False
+        self.hard_button.button_active = False
+
     def run_game(self):
         """Start main loop of the program"""
 
@@ -62,20 +70,48 @@ class AlienInvasion:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pop = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pop)
+                self.mouse_pop = pygame.mouse.get_pos()
+                self._check_play_button(self.mouse_pop)
+                self._check_difficulty_button(self.mouse_pop)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
 
     def _check_play_button(self, mouse_pos):
-        """Start a new game after clicking 'Start Game' button by mouse"""
+        """Start a new game after clicking 'Start Game' button by mouse and proceed to choose difficulty"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
 
-        if button_clicked and not self.stats.game_active:
-            self.settings.initialize_dynamic_settings()
-            self._start_new_game()
+        if button_clicked and not self.stats.game_active and self.play_button.button_active:
+            self.play_button.button_active = False
+            self.easy_button.button_active = True
+            self.normal_button.button_active = True
+            self.hard_button.button_active = True
+            self.mouse_pop = (0, 0)
+
+    def _check_difficulty_button(self, mouse_pos):
+        """Start a new game after clicking any difficulty button by mouse"""
+        easy_button_clicked = self.easy_button.rect.collidepoint(mouse_pos)
+        normal_button_clicked = self.normal_button.rect.collidepoint(mouse_pos)
+        hard_button_clicked = self.hard_button.rect.collidepoint(mouse_pos)
+
+        if easy_button_clicked and not self.stats.game_active and self.easy_button.button_active:
+            self.settings.initialize_dynamic_settings('easy')
+            self._start_new_game_and_reset_buttons()
+        elif normal_button_clicked and not self.stats.game_active and self.normal_button.button_active:
+            self.settings.initialize_dynamic_settings('normal')
+            self._start_new_game_and_reset_buttons()
+        elif hard_button_clicked and not self.stats.game_active and self.hard_button.button_active:
+            self.settings.initialize_dynamic_settings('hard')
+            self._start_new_game_and_reset_buttons()
+
+    def _start_new_game_and_reset_buttons(self):
+        """Start a new game after choosing a difficulty"""
+        self._start_new_game()
+        self.play_button.button_active = True
+        self.easy_button.button_active = False
+        self.normal_button.button_active = False
+        self.hard_button.button_active = False
 
     def _check_keydown_events(self, event):
         """Reaction to pressing a key"""
@@ -261,7 +297,15 @@ class AlienInvasion:
 
         # Display the button 'Start Game' only when the game is inactive
         if not self.stats.game_active:
-            self.play_button.draw_button()
+            if self.play_button.button_active:
+                self.play_button.draw_button()
+            if self.easy_button.button_active:
+                self.easy_button.draw_button()
+            if self.normal_button.button_active:
+                self.normal_button.draw_button()
+            if self.hard_button.button_active:
+                self.hard_button.draw_button()
+
 
         # Displaying the last modified screen
         pygame.display.flip()
