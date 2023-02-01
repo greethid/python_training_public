@@ -18,3 +18,11 @@ class Scoreboard:
         # Prepare init scoring images
         self.prep_score()
 
+    def prep_score(self):
+        """Transform scores to image on the screen"""
+        score_str = str(self.stats.score)
+        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
+
+        # Display scoring in the upper right corner of the screen
+        self.score_rect = self.score_image
+
