@@ -46,6 +46,9 @@ class Settings:
         self.bullet_speed = 3 * difficulty_scale
         self.alien_speed = 0.5 * difficulty_scale
 
+        # Scoring
+        self.alien_points = 50
+
     def increase_speed(self):
         """Change game speed settings"""
         self.ship_speed *= self.speedup_scale
