@@ -28,10 +28,15 @@ class Settings:
         # Star settings
         self.star_speed = 1
 
-        # Easy change of the game speed
+        # Change of the game speed
         self.speedup_scale = 1.5
+        # Change of the scores gain by shooting an alien
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
+
+        # Scoring
+        self.alien_points = 50
 
     def initialize_dynamic_settings(self, difficulty='easy'):
         """Initialization the settings which will be changed during a game"""
@@ -47,10 +52,12 @@ class Settings:
         self.alien_speed = 0.5 * difficulty_scale
 
         # Scoring
-        self.alien_points = 50
+        self.alien_points = int(50 * difficulty_scale)
 
     def increase_speed(self):
         """Change game speed settings"""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+
+        self.alien_points = int(self.alien_points * self.score_scale)
