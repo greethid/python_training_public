@@ -4,6 +4,10 @@ class GameStats:
     def __init__(self, ai_game):
         """Initialization of statistical data"""
         self.settings = ai_game.settings
+        self.ship_left = None
+        self.score = 0
+        self.level = 0
+        self.difficulty = 'easy'
         self.reset_stats()
 
         # Run game 'alien invasion' in inactive state
@@ -16,3 +20,4 @@ class GameStats:
         """Initialization of statistical data which can change during play"""
         self.ship_left = self.settings.ship_limit
         self.score = 0
+        self.level = 1

@@ -90,6 +90,8 @@ class AlienInvasion:
             self.normal_button.button_active = True
             self.hard_button.button_active = True
             self.mouse_pop = (0, 0)
+            self.sb.prep_score()
+            self.sb.prep_level()
 
     def _check_difficulty_button(self, mouse_pos):
         """Start a new game after clicking any difficulty button by mouse"""
@@ -99,12 +101,15 @@ class AlienInvasion:
 
         if easy_button_clicked and not self.stats.game_active and self.easy_button.button_active:
             self.settings.initialize_dynamic_settings('easy')
+            self.stats.difficulty = 'easy'
             self._start_new_game_and_reset_buttons()
         elif normal_button_clicked and not self.stats.game_active and self.normal_button.button_active:
             self.settings.initialize_dynamic_settings('normal')
+            self.stats.difficulty = 'normal'
             self._start_new_game_and_reset_buttons()
         elif hard_button_clicked and not self.stats.game_active and self.hard_button.button_active:
             self.settings.initialize_dynamic_settings('hard')
+            self.stats.difficulty = 'hard'
             self._start_new_game_and_reset_buttons()
 
     def _start_new_game_and_reset_buttons(self):
@@ -140,6 +145,7 @@ class AlienInvasion:
         self.stats.reset_stats()
         self.stats.game_active = True
         self.sb.prep_score()
+        self.sb.prep_level()
 
         # Delete content of the list aliens and bullets
         self.aliens.empty()
@@ -274,6 +280,10 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            # Increment a number of level
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_aliens(self):
         """Check if any alien from the fleet touches the edge of the screen and update position of all aliens in the screen"""
