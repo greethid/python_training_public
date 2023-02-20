@@ -1,5 +1,7 @@
 import sys
 from time import sleep
+import json
+import os
 
 import pygame
 
@@ -51,6 +53,9 @@ class AlienInvasion:
         self.normal_button.button_active = False
         self.hard_button.button_active = False
 
+        # Filename for json with the high score
+        self.save_file = 'high_score.json'
+
     def run_game(self):
         """Start main loop of the program"""
 
@@ -70,6 +75,7 @@ class AlienInvasion:
         # Waiting for input from a user
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self._save_high_score()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mouse_pop = pygame.mouse.get_pos()
@@ -92,6 +98,7 @@ class AlienInvasion:
             self.mouse_pop = (0, 0)
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
 
     def _check_difficulty_button(self, mouse_pos):
         """Start a new game after clicking any difficulty button by mouse"""
@@ -132,6 +139,7 @@ class AlienInvasion:
         elif event.key == pygame.K_DOWN:
             self.ship.moving_down = True
         elif event.key == pygame.K_q:
+            self._save_high_score()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -141,6 +149,10 @@ class AlienInvasion:
 
     def _start_new_game(self):
         """Start a new game after clicking 'Start Game' button by a mouse or the 'G' key on a keyboard"""
+        # Load the highest score of all time
+
+        self._load_high_score()
+
         # Resetting game statistics
         self.stats.reset_stats()
         self.stats.game_active = True
@@ -337,6 +349,7 @@ class AlienInvasion:
         if self.stats.ship_left > 1:
             # Decrease value of left ships
             self.stats.ship_left -= 1
+            self.sb.prep_ships()
 
             # Delete content of lists alien and bullets
             self.aliens.empty()
@@ -361,6 +374,18 @@ class AlienInvasion:
                 # Do the same as in case collision between the ship and an alien
                 self._ship_hit()
                 break
+
+    def _save_high_score(self):
+        """Save the highest score to json file"""
+        with open(self.save_file, 'w') as f:
+            json.dump(self.stats.high_score, f)
+
+    def _load_high_score(self):
+        """Load the highest score from json file"""
+        if os.path.exists(self.save_file):
+            with open(self.save_file) as f:
+                self.stats.high_score = json.load(f)
+                self.sb.prep_high_score()
 
 
 if __name__ == '__main__':
