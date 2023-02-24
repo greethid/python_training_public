@@ -254,7 +254,7 @@ class AlienInvasion:
         self.stars.add(star)
 
     def _check_star_edge(self):
-        """Reaction when alien touches the right or the left edge of the screen"""
+        """Reaction when a star touches the bottom edge of the screen"""
         for star in self.stars.sprites():
             if star.check_edge_bottom():
                 star.y = 1
@@ -339,7 +339,6 @@ class AlienInvasion:
                 self.normal_button.draw_button()
             if self.hard_button.button_active:
                 self.hard_button.draw_button()
-
 
         # Displaying the last modified screen
         pygame.display.flip()
