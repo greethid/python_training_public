@@ -130,3 +130,7 @@ dmypy.json
 
 # Local save files
 high_score.json
+
+# Images
+*.jpeg
+*.png
