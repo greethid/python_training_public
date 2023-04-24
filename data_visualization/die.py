@@ -1,18 +1,12 @@
-import random
-import plotly.express as px
+from random import randint
 
-# symulacja rzutu kością
-def roll_dice():
-    return random.randint(1, 6)
+class Die():
+    """The class representing one six-sided die"""
 
-# liczba rzutów kością
-num_rolls = 1000
+    def __init__(self, num_sides=6):
+        """Assumption that a die is the form of a cube"""
+        self.num_sides = num_sides
 
-# lista wyników rzutów
-rolls = [roll_dice() for i in range(num_rolls)]
-
-# tworzenie histogramu wyników
-fig = px.histogram(rolls, nbins=6, labels={'value': 'Wynik', 'count': 'Liczba rzutów'})
-
-# wyświetlenie wykresu
-fig.show()
+    def roll(self):
+        """Return value from 1 to the number of sides a die has"""
+        return randint(1, self.num_sides)
