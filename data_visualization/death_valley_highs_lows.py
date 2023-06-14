@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-filename = 'data/sitka_weather_2018_simple.csv'
+filename = 'data/death_valley_2018_simple.csv'
 
 with open(filename) as f:
     reader = csv.reader(f)
@@ -15,11 +15,15 @@ with open(filename) as f:
     dates, highs, lows = [], [], []
     for row in reader:
         current_date = datetime.strptime(row[2], '%Y-%m-%d')
-        high = int(row[5])
-        low = int(row[6])
-        dates.append(current_date)
-        highs.append(high)
-        lows.append(low)
+        try:
+            high = int(row[4])
+            low = int(row[5])
+        except ValueError:
+            print(f'No data for date {current_date}.')
+        else:
+            dates.append(current_date)
+            highs.append(high)
+            lows.append(low)
 
     print(highs)
 
