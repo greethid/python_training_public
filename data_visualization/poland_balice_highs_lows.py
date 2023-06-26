@@ -2,19 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-filename = 'data/death_valley_2018_simple.csv'
-
-
-def get_city_name():
-    index_1 = filename.index('data/')
-    print(index_1)
-    index_2 = filename.index('_2018')
-    print(index_2)
-    city_name = filename[index_1+5:index_2]
-    city_name = city_name.replace('_', ' ')
-    city_name = city_name.title()
-    return city_name
-
+filename = 'data/poland_weather_2013_2023.csv'
 
 with open(filename) as f:
     reader = csv.reader(f)
@@ -27,17 +15,20 @@ with open(filename) as f:
     dates, highs, lows = [], [], []
     high_index = header_row.index('TMAX')
     low_index = header_row.index('TMIN')
+    name_index = header_row.index('NAME')
+    date_index = header_row.index('DATE')
     for row in reader:
-        current_date = datetime.strptime(row[2], '%Y-%m-%d')
-        try:
-            high = int(row[high_index])
-            low = int(row[low_index])
-        except ValueError:
-            print(f'No data for date {current_date}.')
-        else:
-            dates.append(current_date)
-            highs.append(high)
-            lows.append(low)
+        if row[name_index] == 'BALICE, PL':
+            current_date = datetime.strptime(row[date_index], '%Y-%m-%d')
+            try:
+                high = float(row[high_index])
+                low = float(row[low_index])
+            except ValueError:
+                print(f'No data for date {current_date}.')
+            else:
+                dates.append(current_date)
+                highs.append(high)
+                lows.append(low)
 
     print(highs)
 
@@ -49,16 +40,15 @@ ax.plot(dates, lows, c='blue', alpha=0.5)
 ax.fill_between(dates, highs, lows, facecolor='blue', alpha=0.1)
 
 # Chart formatting
-city = get_city_name()
-title = "The highest and the lowest temperatures of the day for " + city + " - year 2018"
+title = "The highest and the lowest temperatures of the day for Poland Kraków-Balice - years 2013-2023"
 ax.set_title(title, fontsize=20)
 ax.set_xlabel('', fontsize=16)
 fig.autofmt_xdate()
-ax.set_ylabel("Temperature (F°)", fontsize=16)
+ax.set_ylabel("Temperature (C°)", fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=16)
 
 # Scale
 # ax.axis('square')
-ax.set_ylim([0, 150])
+# ax.set_ylim([0, 150])
 
 plt.show()
