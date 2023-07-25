@@ -13,4 +13,6 @@ def print_hi(name):
 if __name__ == '__main__':
     print_hi('PyCharm')
 
+    foo([1, 2, 3, 4, 5], 2)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
