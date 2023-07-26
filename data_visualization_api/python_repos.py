@@ -10,8 +10,6 @@ print(f'Status code: {r.status_code}')
 
 # Placing the received response in the dict variable
 response_dict = r.json()
-# response_dict = sorted(response_dict.keys()['stargazers_count'])
-response_dict = sorted(response_dict.items(), key=lambda item: item['stargazers_count'])
 
 # Processing the results
 print(response_dict.keys())
@@ -27,12 +25,12 @@ repo_dict = repo_dicts[0]
 print(f"Keys: {len(repo_dict)}")
 print(repo_dict.keys())
 
-print('Selected information about the first repository:\n')
-print(f"Name: {repo_dict['name']}")
-print(f"Owner: {repo_dict['owner']['login']}")
-print(f"Stars: {repo_dict['stargazers_count']}")
-print(f"Stars: {repo_dict['stargazers_count']}")
-print(f"Repository: {repo_dict['html_url']}")
-print(f"Created on: {repo_dict['created_at']}")
-print(f"Updated on: {repo_dict['updated_at']}")
-print(f"Description: {repo_dict['description']}")
+print('Selected information about repositories:\n')
+for repo_dict in repo_dicts:
+    print(f"Name: {repo_dict['name']}")
+    print(f"Owner: {repo_dict['owner']['login']}")
+    print(f"Stars: {repo_dict['stargazers_count']}")
+    print(f"Repository: {repo_dict['html_url']}")
+    print(f"Created on: {repo_dict['created_at']}")
+    print(f"Updated on: {repo_dict['updated_at']}")
+    print(f"Description: {repo_dict['description']}")
