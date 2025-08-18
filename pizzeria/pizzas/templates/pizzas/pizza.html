@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "pizzas/base.html" %}
+
+{% block content %}
+
+    <p>Temat: {{topic}}</p>
+
+    <p>Wpisy:</p>
+    <ul>
+        {% for topping in entries %}
+            <li>
+                <p>{{ topping.name|linebreaks }}</p>
+            </li>
+        {% empty %}
+            <li>Nie ma jeszcze żadnego wpisu.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

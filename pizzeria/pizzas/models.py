@@ -13,9 +13,9 @@ class Topping(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
 
-    # class Meta:
-    #     """Defines the special attribute that tells Django to use 'entries' form instead of 'Entrys' """
-    #     verbose_name_plural = 'entries'
+    class Meta:
+        """Defines the special attribute that tells Django to use 'entries' form instead of 'Entrys' """
+        verbose_name_plural = 'entries'
 
     def __str__(self):
         """Returns a representation of a model as a text string - up to 50 characters"""
