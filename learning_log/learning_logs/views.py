@@ -78,3 +78,5 @@ def edit_entry(request, entry_id):
     # Display the empty form
     context = {'entry': entry, 'topic': topic,'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+
