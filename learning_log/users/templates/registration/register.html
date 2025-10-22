@@ -2,13 +2,11 @@
 
 {% block content %}
 
-    <form method="post" action="{% url 'users:register' %}">
+  <form action="{% url 'accounts:register' %}" method='post'>
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_div }}
 
-    <button name="submit">Zarejestruj</button>
-    <input type="hidden" name="next" value="{% url 'learning_logs:index' %}"/>
-
-    </form>
+    <button name="submit">Register</button>
+  </form>
 
 {% endblock content %}
